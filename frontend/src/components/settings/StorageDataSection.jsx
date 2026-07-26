@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
-import { Database, Video, FileText, Trash2, HardDrive, Check } from 'lucide-react';
+import { Database, Video, FileText, Trash2, HardDrive } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { mockStorageData } from '../../data/mockSettingsData';
 
-/**
- * Section 7: Storage & Data Usage Bar & Cache Cleaner
- */
 export function StorageDataSection() {
   const [storage, setStorage] = useState(mockStorageData);
   const [clearing, setClearing] = useState(false);
-  const [clearedMsg, setClearedMsg] = useState(false);
 
   const usagePercent = Math.round((storage.usedGB / storage.totalGB) * 100);
 
   const handleClearCache = () => {
-    if (confirm('Clear local browser AI telemetry cache? (This will not delete your cloud documents).')) {
+    if (confirm('Clear local browser AI telemetry cache?')) {
       setClearing(true);
+      const toastId = toast.loading('Clearing local cache...');
       setTimeout(() => {
         setClearing(false);
-        setClearedMsg(true);
-        setTimeout(() => setClearedMsg(false), 3000);
+        toast.success('Local browser cache cleared successfully!', { id: toastId });
       }, 1000);
     }
   };
@@ -35,15 +32,8 @@ export function StorageDataSection() {
             <p className="text-xs text-slate-400">Manage uploaded lecture recordings, indexed PDF notes, and local cache.</p>
           </div>
         </div>
-
-        {clearedMsg && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-xs font-semibold">
-            <Check className="w-3.5 h-3.5" /> Cache Cleared
-          </span>
-        )}
       </div>
 
-      {/* Storage Bar */}
       <div className="p-5 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-3">
         <div className="flex items-center justify-between text-xs">
           <span className="font-semibold text-slate-300 flex items-center gap-2">
@@ -62,7 +52,6 @@ export function StorageDataSection() {
         </div>
       </div>
 
-      {/* Media Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-4 rounded-xl bg-slate-950/40 border border-slate-800/80 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -91,7 +80,6 @@ export function StorageDataSection() {
         </div>
       </div>
 
-      {/* Clear Cache Trigger */}
       <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
         <div>
           <span className="font-semibold text-slate-200 block">Local Telemetry Cache</span>
@@ -102,7 +90,7 @@ export function StorageDataSection() {
           type="button"
           onClick={handleClearCache}
           disabled={clearing}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-semibold transition-all disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-semibold transition-all disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-rose-500/50"
         >
           <Trash2 className="w-3.5 h-3.5" />
           <span>{clearing ? 'Clearing...' : 'Clear Local Cache'}</span>

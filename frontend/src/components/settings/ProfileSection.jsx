@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { User, Mail, Building2, GraduationCap, Camera, Check } from 'lucide-react';
+import toast from 'react-hot-toast';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import { mockProfileData } from '../../data/mockSettingsData';
 
-/**
- * Section 1: Profile Details & Avatar Upload
- */
 export function ProfileSection() {
   const [profile, setProfile] = useState(mockProfileData);
   const [isSaving, setIsSaving] = useState(false);
-  const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,12 +17,11 @@ export function ProfileSection() {
   const handleSave = (e) => {
     e.preventDefault();
     setIsSaving(true);
-    setSavedSuccess(false);
+    const toastId = toast.loading('Saving profile changes...');
 
     setTimeout(() => {
       setIsSaving(false);
-      setSavedSuccess(true);
-      setTimeout(() => setSavedSuccess(false), 3000);
+      toast.success('Academic profile updated successfully!', { id: toastId });
     }, 1000);
   };
 
@@ -41,15 +37,8 @@ export function ProfileSection() {
             <p className="text-xs text-slate-400">Manage your faculty credentials and institutional details.</p>
           </div>
         </div>
-
-        {savedSuccess && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-xs font-semibold">
-            <Check className="w-3.5 h-3.5" /> Changes Saved
-          </span>
-        )}
       </div>
 
-      {/* Avatar Upload */}
       <div className="flex items-center gap-5">
         <div className="relative group">
           <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center font-extrabold text-white text-2xl shadow-xl ring-4 ring-indigo-500/20">
@@ -57,9 +46,10 @@ export function ProfileSection() {
           </div>
           <button
             type="button"
-            onClick={() => alert('Profile photo upload trigger')}
-            className="absolute bottom-0 right-0 p-2 rounded-full bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shadow-lg"
+            onClick={() => toast.success('Profile photo updated!')}
+            className="absolute bottom-0 right-0 p-2 rounded-full bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
             title="Change Profile Photo"
+            aria-label="Change Profile Photo"
           >
             <Camera className="w-3.5 h-3.5" />
           </button>
@@ -72,7 +62,6 @@ export function ProfileSection() {
         </div>
       </div>
 
-      {/* Form Fields */}
       <form onSubmit={handleSave} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input

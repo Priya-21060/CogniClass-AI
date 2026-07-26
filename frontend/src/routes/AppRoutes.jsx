@@ -7,29 +7,78 @@ import LiveClassPage from '../pages/LiveClass/LiveClassPage';
 import AIInsightsPage from '../pages/AIInsights/AIInsightsPage';
 import ReportsPage from '../pages/Reports/ReportsPage';
 import SettingsPage from '../pages/Settings/SettingsPage';
+import NotFoundPage from '../pages/NotFound/NotFoundPage';
+import PageTransition from '../components/common/PageTransition';
 
-/**
- * Application Routing Definition.
- * Configures standalone public login page and nested authenticated AppLayout shell routes.
- */
 export function AppRoutes() {
   return (
     <Routes>
-      {/* Public Route */}
-      <Route path="/login" element={<LoginPage />} />
+      {/* Public Login Route */}
+      <Route
+        path="/login"
+        element={
+          <PageTransition>
+            <LoginPage />
+          </PageTransition>
+        }
+      />
 
       {/* Authenticated Application Shell Routes */}
       <Route element={<AppLayout />}>
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/live-classroom" element={<LiveClassPage />} />
-        <Route path="/ai-insights" element={<AIInsightsPage />} />
-        <Route path="/reports" element={<ReportsPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PageTransition>
+              <DashboardPage />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/live-classroom"
+          element={
+            <PageTransition>
+              <LiveClassPage />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/ai-insights"
+          element={
+            <PageTransition>
+              <AIInsightsPage />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/reports"
+          element={
+            <PageTransition>
+              <ReportsPage />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <PageTransition>
+              <SettingsPage />
+            </PageTransition>
+          }
+        />
       </Route>
 
-      {/* Root & Fallback Redirects */}
+      {/* Root Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+
+      {/* Custom 404 Not Found Catch-All */}
+      <Route
+        path="*"
+        element={
+          <PageTransition>
+            <NotFoundPage />
+          </PageTransition>
+        }
+      />
     </Routes>
   );
 }

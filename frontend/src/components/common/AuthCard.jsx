@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { Mail, Lock, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Checkbox from '../ui/Checkbox';
 import SocialButton from '../ui/SocialButton';
 
-/**
- * Right-side Authentication Card component containing form validation,
- * state management, login handler, and social authentication options.
- */
 export function AuthCard({ onLoginSuccess }) {
   const [formData, setFormData] = useState({
     email: '',
@@ -18,22 +15,18 @@ export function AuthCard({ onLoginSuccess }) {
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [authStatus, setAuthStatus] = useState(null); // 'success' | 'error' | null
 
-  // Input change handler
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
-    // Clear error as user types
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
-  // Basic Form Validation
   const validateForm = () => {
     const newErrors = {};
     if (!formData.email) {
@@ -52,24 +45,24 @@ export function AuthCard({ onLoginSuccess }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Form Submit Handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      toast.error('Please fix the form errors before signing in.');
+      return;
+    }
 
     setIsLoading(true);
-    setAuthStatus(null);
+    const toastId = toast.loading('Authenticating credentials...');
 
     try {
-      // Simulated production API network delay
-      await new Promise((resolve) => setTimeout(resolve, 1400));
-
-      setAuthStatus('success');
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+      toast.success('Welcome back to CogniClass AI!', { id: toastId });
       if (onLoginSuccess) {
         onLoginSuccess(formData);
       }
     } catch (err) {
-      setAuthStatus('error');
+      toast.error('Invalid credentials. Please try again.', { id: toastId });
     } finally {
       setIsLoading(false);
     }
@@ -77,15 +70,18 @@ export function AuthCard({ onLoginSuccess }) {
 
   const handleGoogleSignIn = () => {
     setIsLoading(true);
+    const toastId = toast.loading('Connecting to Google SSO...');
     setTimeout(() => {
-      setAuthStatus('success');
+      toast.success('Signed in with Google successfully!', { id: toastId });
       setIsLoading(false);
-    }, 1200);
+      if (onLoginSuccess) {
+        onLoginSuccess({ email: 'user@gmail.com' });
+      }
+    }, 1000);
   };
 
   return (
     <div className="w-full max-w-md mx-auto p-6 sm:p-8 space-y-6">
-      {/* Header */}
       <div className="space-y-2 text-center sm:text-left">
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
           Welcome back
@@ -95,25 +91,12 @@ export function AuthCard({ onLoginSuccess }) {
         </p>
       </div>
 
-      {/* Auth Status Notification Toast */}
-      {authStatus === 'success' && (
-        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm flex items-center gap-2.5 animate-fadeIn">
-          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-          <div>
-            <span className="font-semibold block">Authentication Successful!</span>
-            <span>Redirecting to CogniClass AI Dashboard...</span>
-          </div>
-        </div>
-      )}
-
-      {/* Social Login Button */}
       <div className="space-y-4">
         <SocialButton
           onClick={handleGoogleSignIn}
           disabled={isLoading}
         />
 
-        {/* Divider */}
         <div className="relative flex items-center justify-center my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-slate-800" />
@@ -124,9 +107,7 @@ export function AuthCard({ onLoginSuccess }) {
         </div>
       </div>
 
-      {/* Login Form */}
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        {/* Email Field */}
         <Input
           id="email"
           label="Email Address"
@@ -141,7 +122,6 @@ export function AuthCard({ onLoginSuccess }) {
           disabled={isLoading}
         />
 
-        {/* Password Field */}
         <Input
           id="password"
           label="Password"
@@ -156,7 +136,6 @@ export function AuthCard({ onLoginSuccess }) {
           disabled={isLoading}
         />
 
-        {/* Remember Me & Forgot Password Row */}
         <div className="flex items-center justify-between pt-1">
           <Checkbox
             id="rememberMe"
@@ -170,7 +149,7 @@ export function AuthCard({ onLoginSuccess }) {
             href="#forgot-password"
             onClick={(e) => {
               e.preventDefault();
-              alert('Password reset link sent to your email.');
+              toast.success('Password reset link sent to your email.');
             }}
             className="text-xs sm:text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors focus:outline-none focus:underline"
           >
@@ -178,7 +157,6 @@ export function AuthCard({ onLoginSuccess }) {
           </a>
         </div>
 
-        {/* Submit Button */}
         <div className="pt-2">
           <Button
             type="submit"
@@ -192,14 +170,13 @@ export function AuthCard({ onLoginSuccess }) {
         </div>
       </form>
 
-      {/* Footer / Create Account Link */}
       <div className="text-center pt-2 text-xs sm:text-sm text-slate-400">
         Don&apos;t have an account yet?{' '}
         <a
           href="#signup"
           onClick={(e) => {
             e.preventDefault();
-            alert('Redirecting to Institution Onboarding...');
+            toast.info('Redirecting to Institutional Onboarding...');
           }}
           className="font-semibold text-indigo-400 hover:text-indigo-300 transition-colors focus:outline-none focus:underline"
         >

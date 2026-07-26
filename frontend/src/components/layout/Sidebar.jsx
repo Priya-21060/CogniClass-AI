@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import {
   LayoutDashboard,
   Radio,
@@ -13,9 +14,6 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 
-/**
- * Navigation items definition for CogniClass AI
- */
 export const NAV_ITEMS = [
   {
     name: 'Dashboard',
@@ -51,22 +49,17 @@ export const NAV_ITEMS = [
   },
 ];
 
-/**
- * Reusable Sidebar Navigation Component.
- * Supports mobile drawer overlay mode and active route highlighting.
- */
 export function Sidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = () => {
-    // Perform authentication cleanup if needed
+    toast.success('Signed out successfully.');
     navigate('/login');
   };
 
   return (
     <>
-      {/* Mobile Backdrop Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-sm lg:hidden transition-opacity duration-300"
@@ -75,7 +68,6 @@ export function Sidebar({ isOpen, onClose }) {
         />
       )}
 
-      {/* Sidebar Drawer Container */}
       <aside
         className={`
           fixed top-0 bottom-0 left-0 z-50 w-72 bg-slate-900/95 border-r border-slate-800/80
@@ -84,10 +76,9 @@ export function Sidebar({ isOpen, onClose }) {
           ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}
         `}
       >
-        {/* Top Header & Branding */}
         <div className="p-5 space-y-6">
           <div className="flex items-center justify-between">
-            <NavLink to="/dashboard" className="flex items-center gap-3 group focus:outline-none">
+            <NavLink to="/dashboard" className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-indigo-500/50 rounded-xl p-1">
               <div className="p-2 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
                 <BrainCircuit className="w-6 h-6" />
               </div>
@@ -101,18 +92,16 @@ export function Sidebar({ isOpen, onClose }) {
               </div>
             </NavLink>
 
-            {/* Mobile Close Button */}
             <button
               type="button"
               onClick={onClose}
-              className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors focus:outline-none"
+              className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
               aria-label="Close menu"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Quick AI Engine Status Pill */}
           <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
@@ -127,7 +116,6 @@ export function Sidebar({ isOpen, onClose }) {
           </div>
         </div>
 
-        {/* Navigation Items */}
         <div className="flex-1 px-3 space-y-1 overflow-y-auto py-2">
           <div className="px-3 pb-2 text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
             Main Menu
@@ -144,7 +132,7 @@ export function Sidebar({ isOpen, onClose }) {
                 onClick={onClose}
                 className={`
                   relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium
-                  transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-indigo-500/40
+                  transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-indigo-500/50
                   ${
                     isActive
                       ? 'bg-indigo-600/15 text-indigo-300 font-semibold border border-indigo-500/30 shadow-sm'
@@ -152,7 +140,6 @@ export function Sidebar({ isOpen, onClose }) {
                   }
                 `}
               >
-                {/* Active Indicator Line */}
                 {isActive && (
                   <span className="absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded-r-full" />
                 )}
@@ -181,7 +168,6 @@ export function Sidebar({ isOpen, onClose }) {
           })}
         </div>
 
-        {/* Bottom User Profile Section & Logout */}
         <div className="p-4 border-t border-slate-800/80 space-y-3 bg-slate-950/40">
           <div className="flex items-center gap-3">
             <div className="relative">
@@ -192,9 +178,7 @@ export function Sidebar({ isOpen, onClose }) {
             </div>
 
             <div className="flex-1 min-w-0">
-              <h4 className="text-sm font-semibold text-white truncate">
-                Dr. Sarah Jenkins
-              </h4>
+              <h4 className="text-sm font-semibold text-white truncate">Dr. Sarah Jenkins</h4>
               <p className="text-xs text-slate-400 truncate flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3 text-indigo-400 inline" />
                 Prof. Computer Science
@@ -204,8 +188,9 @@ export function Sidebar({ isOpen, onClose }) {
             <button
               type="button"
               onClick={handleLogout}
-              className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors focus:outline-none"
+              className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500/50"
               title="Sign Out"
+              aria-label="Sign Out"
             >
               <LogOut className="w-4 h-4" />
             </button>

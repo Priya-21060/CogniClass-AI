@@ -1,62 +1,59 @@
 import React from 'react';
-import { LayoutDashboard, Sparkles, Activity, Clock, Users } from 'lucide-react';
+import EngagementHeroCard from '../../components/dashboard/EngagementHeroCard';
+import LiveClassroomStatus from '../../components/dashboard/LiveClassroomStatus';
+import TodaysClasses from '../../components/dashboard/TodaysClasses';
+import StudentAttentionAnalytics from '../../components/dashboard/StudentAttentionAnalytics';
+import AttendanceTrends from '../../components/dashboard/AttendanceTrends';
+import ClassroomEmotionDistribution from '../../components/dashboard/ClassroomEmotionDistribution';
+import AITeachingSuggestions from '../../components/dashboard/AITeachingSuggestions';
+import LectureSummaryPreview from '../../components/dashboard/LectureSummaryPreview';
+import AtRiskStudents from '../../components/dashboard/AtRiskStudents';
+import RecentAIAlerts from '../../components/dashboard/RecentAIAlerts';
 
+/**
+ * Premium AI-Powered Classroom Intelligence Dashboard for CogniClass AI.
+ * Assembles all 10 specialized telemetry components into a modern grid layout
+ * inspired by Linear, Notion, Stripe, and Vercel.
+ */
 export function DashboardPage() {
   return (
-    <div className="space-y-6">
-      {/* Page Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800/80 shadow-xl">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <LayoutDashboard className="w-5 h-5 text-indigo-400" />
-            <h2 className="text-xl font-bold text-white tracking-tight">Classroom Intelligence Dashboard</h2>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Welcome back, Dr. Jenkins. Here is your real-time academic telemetry overview.
-          </p>
+    <div className="space-y-6 pb-12">
+      {/* Row 1: AI Hero Metric (8 Cols) & Live Classroom Status (4 Cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-8">
+          <EngagementHeroCard />
         </div>
-        <div className="flex items-center gap-3">
-          <button type="button" className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-500/20 transition-all">
-            + Start Live Lecture
-          </button>
+        <div className="lg:col-span-4">
+          <LiveClassroomStatus />
         </div>
       </div>
 
-      {/* Metric Cards Shell */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { label: 'Active Lectures', value: '4 Live', icon: Activity, change: '+12% vs last week', color: 'text-emerald-400' },
-          { label: 'Avg Engagement Rate', value: '92.4%', icon: Sparkles, change: 'Optimal attention', color: 'text-indigo-400' },
-          { label: 'Enrolled Students', value: '1,420', icon: Users, change: 'Active across 6 courses', color: 'text-cyan-400' },
-          { label: 'Analyzed Hours', value: '348 hrs', icon: Clock, change: 'Updated 5m ago', color: 'text-purple-400' },
-        ].map((stat, i) => {
-          const Icon = stat.icon;
-          return (
-            <div key={i} className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-slate-400">{stat.label}</span>
-                <div className="p-2 rounded-xl bg-slate-800 text-slate-300">
-                  <Icon className="w-4 h-4" />
-                </div>
-              </div>
-              <div className="text-2xl font-bold text-white tracking-tight">{stat.value}</div>
-              <div className={`text-xs font-medium ${stat.color}`}>{stat.change}</div>
-            </div>
-          );
-        })}
+      {/* Row 2: Student Attention Analytics Line Chart (8 Cols) & Emotion Distribution Doughnut Chart (4 Cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-8">
+          <StudentAttentionAnalytics />
+        </div>
+        <div className="lg:col-span-4">
+          <ClassroomEmotionDistribution />
+        </div>
       </div>
 
-      {/* Main Content Placeholder Container */}
-      <div className="min-h-[340px] rounded-2xl bg-slate-900/40 border border-dashed border-slate-800 flex items-center justify-center p-8 text-center">
-        <div className="max-w-md space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mx-auto text-indigo-400">
-            <LayoutDashboard className="w-6 h-6" />
-          </div>
-          <h3 className="text-base font-semibold text-white">Dashboard Widgets Placeholder</h3>
-          <p className="text-xs text-slate-400 leading-relaxed">
-            Ready to integrate charts, live engagement streams, acoustic sentiment cards, and automated lecture summaries.
-          </p>
-        </div>
+      {/* Row 3: Today's Schedule & Attendance Trends Bar Chart */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TodaysClasses />
+        <AttendanceTrends />
+      </div>
+
+      {/* Row 4: AI Teaching Suggestions & Automated Lecture Summary Preview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <AITeachingSuggestions />
+        <LectureSummaryPreview />
+      </div>
+
+      {/* Row 5: At-Risk Student Interventions & Recent AI Telemetry Alerts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <AtRiskStudents />
+        <RecentAIAlerts />
       </div>
     </div>
   );

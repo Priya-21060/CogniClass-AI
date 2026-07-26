@@ -1,31 +1,48 @@
-import React from 'react';
-import { Settings, Shield, Bell, User, Key } from 'lucide-react';
+import React, { useState } from 'react';
+import SettingsNavTabs from '../../components/settings/SettingsNavTabs';
+import ProfileSection from '../../components/settings/ProfileSection';
+import ClassroomPrefsSection from '../../components/settings/ClassroomPrefsSection';
+import AIPrefsSection from '../../components/settings/AIPrefsSection';
+import NotificationsSection from '../../components/settings/NotificationsSection';
+import AppearanceSection from '../../components/settings/AppearanceSection';
+import SecuritySection from '../../components/settings/SecuritySection';
+import StorageDataSection from '../../components/settings/StorageDataSection';
 
+/**
+ * Premium Enterprise Settings Page for CogniClass AI.
+ * Assembles Profile, Classroom Preferences, AI Engine Settings, Notifications,
+ * Appearance, Security, and Cloud Storage sections into a cohesive dark interface.
+ */
 export function SettingsPage() {
+  const [activeSection, setActiveSection] = useState('profile');
+
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-800/80 shadow-xl">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <Settings className="w-5 h-5 text-indigo-400" />
-            <h2 className="text-xl font-bold text-white tracking-tight">Platform Settings</h2>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Configure institutional AI models, integration keys, user roles, and security policies.
-          </p>
-        </div>
+    <div className="space-y-6 pb-16 max-w-5xl mx-auto">
+      {/* Header Banner */}
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/30 to-slate-900 border border-slate-800/80 shadow-xl space-y-1">
+        <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+          System & Account Settings
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-400">
+          Configure your faculty profile, classroom telemetry thresholds, AI neural copilot models, and security protocols.
+        </p>
       </div>
 
-      <div className="min-h-[420px] rounded-2xl bg-slate-900/40 border border-dashed border-slate-800 flex items-center justify-center p-8 text-center">
-        <div className="max-w-md space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center mx-auto text-slate-300">
-            <Key className="w-6 h-6" />
-          </div>
-          <h3 className="text-base font-semibold text-white">Settings Management Shell</h3>
-          <p className="text-xs text-slate-400 leading-relaxed">
-            Ready for profile management, API token keys, notification preferences, and FERPA/SOC-2 privacy toggles.
-          </p>
-        </div>
+      {/* Quick Navigation Tabs */}
+      <SettingsNavTabs
+        activeSection={activeSection}
+        onSelectSection={setActiveSection}
+      />
+
+      {/* All 7 Settings Sections */}
+      <div className="space-y-6">
+        <ProfileSection />
+        <ClassroomPrefsSection />
+        <AIPrefsSection />
+        <NotificationsSection />
+        <AppearanceSection />
+        <SecuritySection />
+        <StorageDataSection />
       </div>
     </div>
   );

@@ -1,32 +1,37 @@
 import React from 'react';
-import { Radio, Video, Mic, Users, Activity } from 'lucide-react';
+import VideoFeedPanel from '../../components/liveClassroom/VideoFeedPanel';
+import StudentGridPanel from '../../components/liveClassroom/StudentGridPanel';
+import AIInsightsSidebar from '../../components/liveClassroom/AIInsightsSidebar';
+import TemporalAnalyticsBar from '../../components/liveClassroom/TemporalAnalyticsBar';
 
+/**
+ * Futuristic Live Classroom AI Monitoring Center for CogniClass AI.
+ * Assembles Left Video Feed, Center 12-Student Neural Grid, Right AI Insights Sidebar,
+ * and Bottom Temporal Analytics Timeline.
+ */
 export function LiveClassPage() {
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-rose-950/30 to-slate-900 border border-slate-800/80 shadow-xl">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <Radio className="w-5 h-5 text-rose-400 animate-pulse" />
-            <h2 className="text-xl font-bold text-white tracking-tight">Live Classroom Studio</h2>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Real-time audio telemetry, computer vision attention tracking, and instant Q&A synthesis.
-          </p>
+    <div className="space-y-6 pb-12">
+      {/* 3-Column Futuristic Telemetry Control Center */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Left Panel: 16:9 Video Feed & Faculty Controls (4 Cols) */}
+        <div className="lg:col-span-4 xl:col-span-3">
+          <VideoFeedPanel />
+        </div>
+
+        {/* Center Panel: 12-Student Neural Attention Grid (5 Cols on XL / 8 Cols on LG) */}
+        <div className="lg:col-span-8 xl:col-span-6">
+          <StudentGridPanel />
+        </div>
+
+        {/* Right Panel: AI Live Telemetry & Insights Sidebar (3 Cols) */}
+        <div className="lg:col-span-12 xl:col-span-3">
+          <AIInsightsSidebar />
         </div>
       </div>
 
-      <div className="min-h-[420px] rounded-2xl bg-slate-900/40 border border-dashed border-slate-800 flex items-center justify-center p-8 text-center">
-        <div className="max-w-md space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mx-auto text-rose-400">
-            <Video className="w-6 h-6" />
-          </div>
-          <h3 className="text-base font-semibold text-white">Live Classroom Broadcast Shell</h3>
-          <p className="text-xs text-slate-400 leading-relaxed">
-            Ready for real-time WebRTC streams, acoustic transcriptions, and live student emotion analysis feed.
-          </p>
-        </div>
-      </div>
+      {/* Bottom Section: Temporal Engagement Timeline & AI Event Log */}
+      <TemporalAnalyticsBar />
     </div>
   );
 }
